@@ -84,4 +84,22 @@ pipeline {
             mail to: 'team@example.com', subject: "Build Failure: ${env.JOB_NAME} ${env.BUILD_NUMBER}", body: "The build failed. Please check the Jenkins logs for more details."
         }
     }
+stage('Build Docker Image') {
+    steps {
+        script {
+            // Build Docker image
+            sh "docker build -t myapp:latest ."
+        }
+    }
+}
+
+stage('Deploy to Test Environment') {
+    steps {
+        script {
+            // Deploy to test environment
+            sh 'docker-compose -f docker-compose-test.yml up -d'
+        }
+    }
+}
+
 }
